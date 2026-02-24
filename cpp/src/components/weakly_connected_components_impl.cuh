@@ -29,13 +29,13 @@
 
 #include <cuda/functional>
 #include <cuda/iterator>
+#include <cuda/std/functional>
 #include <cuda/std/iterator>
 #include <cuda/std/optional>
 #include <cuda/std/tuple>
 #include <thrust/binary_search.h>
 #include <thrust/copy.h>
 #include <thrust/for_each.h>
-#include <thrust/functional.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/discard_iterator.h>
 #include <thrust/iterator/transform_iterator.h>
@@ -573,7 +573,7 @@ void weakly_connected_components_impl(raft::handle_t const& handle,
               return degrees[vertex_partition.local_vertex_partition_offset_from_vertex_nocheck(v)];
             }),
           edge_t{0},
-          thrust::plus<edge_t>{});
+          cuda::std::plus<edge_t>{});
 
         auto first_candidate_degrees =
           host_scalar_gather(comm, first_candidate_degree, int{0}, handle.get_stream());
@@ -827,7 +827,7 @@ void weakly_connected_components_impl(raft::handle_t const& handle,
               return degrees[vertex_partition.local_vertex_partition_offset_from_vertex_nocheck(v)];
             }),
           edge_t{0},
-          thrust::plus<edge_t>());
+          cuda::std::plus<edge_t>());
 
         ++iter;
       }

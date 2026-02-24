@@ -17,10 +17,10 @@
 #include <cugraph/graph_view.hpp>
 
 #include <cuda/iterator>
+#include <cuda/std/functional>
 #include <cuda/std/tuple>
 #include <thrust/copy.h>
 #include <thrust/fill.h>
-#include <thrust/functional.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/transform.h>
 
@@ -40,7 +40,7 @@ void normalize(raft::handle_t const& handle,
                     hubs + graph_view.local_vertex_partition_range_size(),
                     cuda::make_constant_iterator(hubs_norm),
                     hubs,
-                    thrust::divides<result_t>());
+                    cuda::std::divides<result_t>());
 }
 
 template <typename GraphViewType, typename result_t>

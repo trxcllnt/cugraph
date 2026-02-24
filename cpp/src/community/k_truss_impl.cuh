@@ -494,7 +494,7 @@ k_truss(raft::handle_t const& handle,
                             cuda::make_constant_iterator(size_t{1}),
                             get_dataframe_buffer_begin(vertex_pair_buffer_unique),
                             decrease_count.begin(),
-                            thrust::equal_to<cuda::std::tuple<vertex_t, vertex_t>>{});
+                            cuda::std::equal_to<cuda::std::tuple<vertex_t, vertex_t>>{});
 
       std::tie(std::get<0>(vertex_pair_buffer_unique),
                std::get<1>(vertex_pair_buffer_unique),

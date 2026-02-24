@@ -312,12 +312,12 @@ void check_input_edges(raft::handle_t const& handle,
                                                edgelist_majors.begin(),
                                                edgelist_majors.end(),
                                                vertex_t{0},
-                                               thrust::maximum<vertex_t>{}),
+                                               cuda::maximum<vertex_t>{}),
                                 thrust::reduce(handle.get_thrust_policy(),
                                                edgelist_minors.begin(),
                                                edgelist_minors.end(),
                                                vertex_t{0},
-                                               thrust::maximum<vertex_t>{}));
+                                               cuda::maximum<vertex_t>{}));
       CUGRAPH_EXPECTS(
         back_element > max_v,
         "Invalid input arguments: if vertex_type_offsets is valid, the last element of "
@@ -2730,8 +2730,8 @@ renumber_and_compress_sampled_edgelist(
                               edgelist_majors.begin(),
                               output_key_first,
                               min_vertices.begin(),
-                              thrust::equal_to<cuda::std::tuple<label_index_t, int32_t>>{},
-                              thrust::minimum<vertex_t>{});
+                              cuda::std::equal_to<cuda::std::tuple<label_index_t, int32_t>>{},
+                              cuda::minimum<vertex_t>{});
       auto num_unique_keys =
         static_cast<size_t>(cuda::std::distance(output_key_first, cuda::std::get<0>(output_it)));
       thrust::reduce_by_key(handle.get_thrust_policy(),
@@ -2740,8 +2740,8 @@ renumber_and_compress_sampled_edgelist(
                             edgelist_majors.begin(),
                             output_key_first,
                             max_vertices.begin(),
-                            thrust::equal_to<cuda::std::tuple<label_index_t, int32_t>>{},
-                            thrust::maximum<vertex_t>{});
+                            cuda::std::equal_to<cuda::std::tuple<label_index_t, int32_t>>{},
+                            cuda::maximum<vertex_t>{});
 
       if (renumbered_seed_vertices) {
         thrust::for_each(
